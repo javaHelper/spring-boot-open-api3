@@ -1,4 +1,4 @@
-package com.example;
+package com.example.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.config.ApiCountryHeader;
+import com.example.config.HeaderConst;
+import com.example.model.Contact;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,9 +44,9 @@ public class ContactController {
 			+ "Default sort order is ascending. " + "Multiple sort criteria are supported."
 			, name = "sort", content = @Content(array = @ArraySchema(schema = @Schema(type = "string"))))
 	@Parameter(in = ParameterIn.HEADER, description = "Custom Header To be Pass", name = "Accept-version"
-	, content = @Content(schema = @Schema(type = "string", defaultValue = "v1", allowableValues= {"v1", "v2"}, implementation = Contact.class)))
+	, content = @Content(schema = @Schema(type = "string", defaultValue = "v1", allowableValues= {"v1"}, implementation = Contact.class)))
 	@GetMapping(value = "/contacts", headers = {"Accept-version=v1"})
-	public ResponseEntity<List<Contact>> findAll(Pageable pageable) {
+	public ResponseEntity<List<Contact>> findAll() {
 		System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ v1");
 		List<Contact> contacts = new ArrayList<>();
 		contacts.add(Contact.builder().address1("Address1").address2("Address2").build());
@@ -49,7 +54,7 @@ public class ContactController {
 	}
 
 
-	@Operation(summary = "Find Contacts by name", description = "Name search by %name% format", tags = { "contact" })
+	/*@Operation(summary = "Find Contacts by name", description = "Name search by %name% format", tags = { "contact" })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "successful operation", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Contact.class)))) })
 	@Parameters({
@@ -69,5 +74,24 @@ public class ContactController {
 		List<Contact> contacts = new ArrayList<>();
 		contacts.add(Contact.builder().address1("Address1").address2("Address2").build());
 		return new ResponseEntity<>(contacts, HttpStatus.OK);
+	}*/
+	
+	
+	
+	@Operation(summary = "Find Language Code By Country Code and Numeric Code")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "For Success as well as No Data found scenerio."),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error") })
+	@ApiCountryHeader
+	@GetMapping(value = "/countries/language-codes", headers = HeaderConst.X_ACCEPT_VERSION_V1)
+	public ResponseEntity<Contact> findCountryLanguages(
+			@RequestParam(required = false) String alpha2Cd,
+			@RequestParam(required = false) String alpha3Cd,
+			@RequestParam(required = false) Integer number3Cd) {
+		
+		Contact response = new Contact();
+		response.setAddress1("Address1");
+		response.setAddress2("Address2");
+		
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

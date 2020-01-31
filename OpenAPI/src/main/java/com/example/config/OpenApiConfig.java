@@ -1,4 +1,4 @@
-package com.example;
+package com.example.config;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,14 +9,9 @@ import org.springframework.context.annotation.Configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
 public class OpenApiConfig {
@@ -24,7 +19,7 @@ public class OpenApiConfig {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .setGroup("v1")
-                .packagesToScan("com.example")
+                .packagesToScan("com.example.controller")
                 .build();
     }
 	
@@ -32,7 +27,7 @@ public class OpenApiConfig {
     public GroupedOpenApi adminApi() {
         return GroupedOpenApi.builder()
                 .setGroup("v2")
-                .packagesToScan("com.example")
+                .packagesToScan("com.example.controller1")
                 .build();
     }
 	

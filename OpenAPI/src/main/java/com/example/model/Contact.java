@@ -1,4 +1,4 @@
-package com.example;
+package com.example.model;
 
 import java.io.Serializable;
 
@@ -7,16 +7,19 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
+@Document
 public class Contact implements Serializable {
 
 	private static final long serialVersionUID = 4048798961366546485L;
